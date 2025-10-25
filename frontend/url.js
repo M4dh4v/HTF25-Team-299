@@ -1,2 +1,2 @@
-const BackendURL = "http://localhost:5000";
+const BackendURL = "https://backend-nocap.vercel.app/";
 export default BackendURL;
