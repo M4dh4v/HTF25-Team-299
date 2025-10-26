@@ -80,7 +80,7 @@ const Controls: React.FC<ControlsProps> = ({
         <button
           onClick={onGenerate}
           disabled={isLoading || disabled}
-          className="w-full h-[46px] bg-gradient-to-r text-white font-bold py-2.5 px-4 rounded-lg hover:from-green-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full h-[46px] bg-gradient-to-r from-neutral-600 to-neutral-500 text-white font-bold py-2.5 px-4 rounded-lg hover:from-green-600 hover:to-green-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isLoading ? (
             <svg
