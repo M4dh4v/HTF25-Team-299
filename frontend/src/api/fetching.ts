@@ -1,6 +1,6 @@
 // functions.ts
 import { CaptionStyle } from "../../types.ts";
-import BackendURL from "../url.js";
+import BackendURL from "../url.ts";
 
 console.log(BackendURL);
 
@@ -32,11 +32,15 @@ export const transcribeAudio = async (base64Frame: string): Promise<string> => {
     return `There was an error: ${response.data}`;
   } catch (error) {
     console.error("Error generating audio transcript:", error);
-    throw new Error(`Failed to generate audio transcript: ${(error as Error).message}`);
+    throw new Error(
+      `Failed to generate audio transcript: ${(error as Error).message}`
+    );
   }
 };
 
-export const describeVideoVisuals = async (base64Frames: string[]): Promise<string> => {
+export const describeVideoVisuals = async (
+  base64Frames: string[]
+): Promise<string> => {
   try {
     const dataToSend = { base64Frames };
     const res = await fetch(`${BackendURL}/describeVideoVisuals`, {
@@ -49,7 +53,9 @@ export const describeVideoVisuals = async (base64Frames: string[]): Promise<stri
     return `There was an error: ${response.data}`;
   } catch (error) {
     console.error("Error generating visual description:", error);
-    throw new Error(`Failed to generate visual description: ${(error as Error).message}`);
+    throw new Error(
+      `Failed to generate visual description: ${(error as Error).message}`
+    );
   }
 };
 

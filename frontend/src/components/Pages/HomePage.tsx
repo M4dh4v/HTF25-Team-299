@@ -164,7 +164,7 @@ const HomePage: React.FC = () => {
   const handleGenerateClick = useCallback(
     async (e?: React.MouseEvent) => {
       if (!transcript.trim()) {
-        setError("Transcript cannot be empty.");
+        setError("Transcript cannot be empty." + e);
         return;
       }
 
@@ -177,7 +177,7 @@ const HomePage: React.FC = () => {
         const generated = await generateCaptions(transcript, style, language);
         setGenerationProgressText("Finalizing captions...");
         await new Promise((r) => setTimeout(r, 300));
-        setCaptions(generated);
+        setCaptions(Array.isArray(generated) ? generated : [generated]);
         setGenerationProgressText("");
         setTranscriptionOpen(false); // collapse after successful generation
       } catch (err) {
