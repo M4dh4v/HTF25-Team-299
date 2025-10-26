@@ -103,7 +103,6 @@ export const generateCaptions = async (transcript, style, language) => {
 1. Analyze the provided transcript to understand the video's content, tone, and key message.
 2. Write 4 to 5 unique captions for the entire video.
 3. Each caption should be in a ${style} style.
-4. Each caption should have a catchy line, catchy title and 10 hashtags.
 4. The output language must be ${language}.
 5. The response must be a JSON array of strings, where each string is a caption.
 
