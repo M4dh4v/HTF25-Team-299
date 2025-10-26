@@ -117,7 +117,7 @@ const HomePage: React.FC = () => {
         const wordCount = audioTranscript.split(/\s+/).filter(Boolean).length;
         let fullTranscript = audioTranscript;
 
-        if (wordCount < 20) {
+        if (wordCount < 1) {
           setProgressText("Describing visuals...");
           const visualDescription = await describeVideoVisuals(frames);
           fullTranscript += `\n\n${visualDescription}`;
