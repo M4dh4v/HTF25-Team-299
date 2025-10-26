@@ -9,7 +9,7 @@ interface VideoPlayerProps {
 const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
   ({ videoUrl, onFileChange }, ref) => {
     return (
-      <div className="bg-neutralal-800 rounded-xl p-4 flex flex-col items-center justify-center aspect-video relative overflow-hidden">
+      <div className="bg-neutral-800 rounded-xl p-4 flex flex-col items-center justify-center aspect-video relative overflow-hidden">
         {videoUrl ? (
           <video
             ref={ref}

@@ -43,7 +43,7 @@ const Controls: React.FC<ControlsProps> = ({
           id="style-select"
           value={style}
           onChange={(e) => setStyle(e.target.value as CaptionStyle)}
-          className="w-full bg-neutralal-700 border border-gray-600 text-white rounded-lg p-2.5 focus:ring-green500 focus:border-green0 transition"
+          className="w-full bg-neutral-700 border border-gray-600 text-white rounded-lg p-2.5 focus:ring-green500 focus:border-green0 transition"
           disabled={disabled}
         >
           {Object.values(CaptionStyle).map((s) => (
@@ -65,7 +65,7 @@ const Controls: React.FC<ControlsProps> = ({
           id="language-select"
           value={language}
           onChange={(e) => setLanguage(e.target.value)}
-          className="w-full bg-neutralal-700 border border-gray-600 text-white rounded-lg p-2.5 focus:ring-green focus:border-greenransition"
+          className="w-full bg-neutral-700 border border-gray-600 text-white rounded-lg p-2.5 focus:ring-green focus:border-greenransition"
           disabled={disabled}
         >
           {languageOptions.map((lang) => (
@@ -80,7 +80,7 @@ const Controls: React.FC<ControlsProps> = ({
         <button
           onClick={onGenerate}
           disabled={isLoading || disabled}
-          className="w-full h-[46px] bg-gradient-to-r from-greenrple-600 text-white font-bold py-2.5 px-4 rounded-lg hover:from-green-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+          className="w-full h-[46px] bg-linear-to-r text-white font-bold py-2.5 px-4 rounded-lg hover:from-green-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
         >
           {isLoading ? (
             <svg

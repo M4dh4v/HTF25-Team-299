@@ -264,7 +264,7 @@ const HomePage: React.FC = () => {
         <div className="mt-4">
           {/* If transcribing and transcript not yet ready => show spinner here */}
           {isTranscribing && !transcript ? (
-            <div className="flex flex-col items-center justify-center py-10 w-full rounded bg-neutralal-800/30">
+            <div className="flex flex-col items-center justify-center py-10 w-full rounded bg-neutral-800/30">
               <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-4"></div>
               <p className="text-gray-300 text-center text-lg font-medium animate-pulse">
                 {progressText || "Processing your video..."}

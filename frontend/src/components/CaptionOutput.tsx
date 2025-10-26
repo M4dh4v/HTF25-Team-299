@@ -57,14 +57,14 @@ const CaptionOutput: React.FC<CaptionOutputProps> = ({
           captions.map((caption, index) => (
             <div
               key={index}
-              className="bg-neutral-700/50 rounded-lg p-4 relative transition-all duration-300"
+              className="bg-neutral-700/50 rounded-lg p-4 relative transition-all duration-300 group"
             >
               <p className="text-gray-200 whitespace-pre-wrap pr-8">
                 {caption}
               </p>
               <button
                 onClick={() => handleCopy(caption, index)}
-                className="absolute top-3 right-3 text-gray-400 hover:text-white transition-colors"
+                className="absolute top-3 right-3 text-gray-400 hover:text-white transition-all opacity-0 group-hover:opacity-100"
                 aria-label="Copy caption"
               >
                 {copiedIndex === index ? (
