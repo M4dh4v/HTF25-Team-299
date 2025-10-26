@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { CaptionStyle } from "../../types";
+import { CaptionStyle } from "../../../types";
 import {
   generateCaptions,
   transcribeAudio,
   describeVideoVisuals,
-} from "../../api/fetching";
+} from "../../api/fetching.ts";
 import VideoPlayer from "../VideoPlayer";
 import Controls from "../Controls";
 import TranscriptInput from "../TranscriptInput";
@@ -177,7 +177,7 @@ const HomePage: React.FC = () => {
         const generated = await generateCaptions(transcript, style, language);
         setGenerationProgressText("Finalizing captions...");
         await new Promise((r) => setTimeout(r, 300));
-        setCaptions(generated);
+        setCaptions([generated]);
         setGenerationProgressText("");
         setTranscriptionOpen(false); // collapse after successful generation
       } catch (err) {

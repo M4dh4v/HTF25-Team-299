@@ -7,8 +7,20 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => (
   <header className="mb-8">
-    <div className="flex justify-between items-start mb-4">
-      <div className="flex-1"></div>
+    {/* Top row: logo on left, buttons on right */}
+    <div className="flex justify-between items-center mb-4">
+      {/* Logo */}
+      <div className="flex items-center">
+        <img
+          src="/logo.png" // references /public/logo.png
+          alt="Logo"
+          className="h-10 w-auto mr-3"
+        />
+        {/* optional small app title next to logo */}
+        {/* <span className="text-xl font-bold">My App</span> */}
+      </div>
+
+      {/* Navigation buttons */}
       <div className="flex gap-3">
         {["home", "about", "contact"].map((page) => (
           <button
@@ -30,13 +42,14 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => (
       </div>
     </div>
 
+    {/* Main title and description */}
     <div className="text-center">
       <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text pb-2">
         Automated Caption Generator
       </h1>
       <p className="text-lg text-gray-400 max-w-2xl mx-auto">
         Upload your video, get an instant transcript, and generate AI-powered
-        captions in any style.
+        captions in any style or language.
       </p>
     </div>
   </header>

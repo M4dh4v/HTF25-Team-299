@@ -1,10 +1,10 @@
-// functions.js
-import { CaptionStyle } from "../types.js"; // remove .ts if not using TS
+// functions.ts
+import { CaptionStyle } from "../../types.ts";
 import BackendURL from "../url.js";
 
 console.log(BackendURL);
 
-const getStyleGuide = (style) => {
+const getStyleGuide = (style: CaptionStyle): string => {
   switch (style) {
     case CaptionStyle.Meme:
       return "Use popular internet slang, humor, and punchy, short sentences. Think viral TikTok or Instagram Reels captions. Add relevant emojis.";
@@ -19,45 +19,45 @@ const getStyleGuide = (style) => {
   }
 };
 
-export const transcribeAudio = async (base64Frame) => {
+export const transcribeAudio = async (base64Frame: string): Promise<string> => {
   try {
     const dataToSend = { base64Frame };
-
     const res = await fetch(`${BackendURL}/transcribeAudio`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataToSend),
     });
-
     const response = await res.json();
     if (response.success) return response.data;
     return `There was an error: ${response.data}`;
   } catch (error) {
     console.error("Error generating audio transcript:", error);
-    throw new Error(`Failed to generate audio transcript: ${error.message}`);
+    throw new Error(`Failed to generate audio transcript: ${(error as Error).message}`);
   }
 };
 
-export const describeVideoVisuals = async (base64Frames) => {
+export const describeVideoVisuals = async (base64Frames: string[]): Promise<string> => {
   try {
     const dataToSend = { base64Frames };
-
     const res = await fetch(`${BackendURL}/describeVideoVisuals`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataToSend),
     });
-
     const response = await res.json();
     if (response.success) return response.data;
     return `There was an error: ${response.data}`;
   } catch (error) {
     console.error("Error generating visual description:", error);
-    throw new Error(`Failed to generate visual description: ${error.message}`);
+    throw new Error(`Failed to generate visual description: ${(error as Error).message}`);
   }
 };
 
-export const generateCaptions = async (transcript, style, language) => {
+export const generateCaptions = async (
+  transcript: string,
+  style: CaptionStyle,
+  language: string
+): Promise<string> => {
   try {
     const dataToSend = {
       transcript,
@@ -65,18 +65,16 @@ export const generateCaptions = async (transcript, style, language) => {
       language,
       styleGuide: getStyleGuide(style),
     };
-
     const res = await fetch(`${BackendURL}/generateCaptions`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(dataToSend),
     });
-
     const response = await res.json();
     if (response.success) return response.data;
     return `There was an error: ${response.data}`;
   } catch (error) {
     console.error("Error generating captions:", error);
-    throw new Error(`Failed to generate captions: ${error.message}`);
+    throw new Error(`Failed to generate captions: ${(error as Error).message}`);
   }
 };

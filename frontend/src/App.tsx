@@ -1,5 +1,4 @@
-import React, { useState, useRef } from "react";
-import { CaptionStyle } from "./types";
+import React, { useState } from "react";
 import Header from "./components/Header";
 import HomePage from "./components/Pages/HomePage";
 import AboutPage from "./components/Pages/AboutPage";
