@@ -200,198 +200,189 @@ const HomePage: React.FC = () => {
   const isVideoCollapsed = !!transcript && !isTranscribing;
 
   return (
-    <main className="flex flex-col items-center gap-8 w-full max-w-6xl mx-auto p-4">
+    <main className="flex flex-col items-center gap-8 w-full">
       {error && (
-        <div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded-lg mb-4 w-full max-w-3xl mx-auto">
+        <div className="bg-red-500/20 border border-red-500 text-red-300 px-4 py-3 rounded-lg mb-4 w-full max-w-3xl">
           <strong>Error:</strong> {error}
         </div>
       )}
 
-      {/* CENTERED outer container */}
-      <div className="w-full flex justify-center">
-        <div className="w-full max-w-3xl">
-          {/* VIDEO wrapper: collapses to Remove button when finished (unchanged behavior) */}
+      {/* VIDEO wrapper: collapses to Remove button when finished */}
+      <div className="w-full max-w-3xl">
+        <motion.div
+          ref={wrapperRef}
+          initial={false}
+          animate={{
+            maxHeight: isVideoCollapsed ? 0 : measuredHeight,
+            opacity: isVideoCollapsed ? 0 : 1,
+          }}
+          transition={{ duration: 0.55, ease: "easeInOut" }}
+          style={{ overflow: "hidden", borderRadius: 8 }}
+        >
           <motion.div
-            ref={wrapperRef}
-            initial={false}
-            animate={{
-              maxHeight: isVideoCollapsed ? 0 : measuredHeight,
-              opacity: isVideoCollapsed ? 0 : 1,
-            }}
+            initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
+            animate={
+              isVideoCollapsed
+                ? { clipPath: "inset(0% 0% 100% 0%)" }
+                : { clipPath: "inset(0% 0% 0% 0%)" }
+            }
             transition={{ duration: 0.55, ease: "easeInOut" }}
             style={{ overflow: "hidden", borderRadius: 8 }}
+            className="w-full"
           >
-            <motion.div
-              initial={{ clipPath: "inset(0% 0% 0% 0%)" }}
-              animate={
-                isVideoCollapsed
-                  ? { clipPath: "inset(0% 0% 100% 0%)" } // shutter closed
-                  : { clipPath: "inset(0% 0% 0% 0%)" } // open
-              }
-              transition={{ duration: 0.55, ease: "easeInOut" }}
-              style={{ overflow: "hidden", borderRadius: 8 }}
-              className="w-full"
-            >
-              <div className="w-full flex justify-center">
-                <div className="w-full">
-                  <VideoPlayer
-                    ref={videoRef}
-                    videoUrl={videoUrl}
-                    onFileChange={handleFileChange}
-                  />
-                </div>
-              </div>
-            </motion.div>
+            <VideoPlayer
+              ref={videoRef}
+              videoUrl={videoUrl}
+              onFileChange={handleFileChange}
+            />
           </motion.div>
+        </motion.div>
 
-          {/* Remove button (normal flow) */}
-          <AnimatePresence>
-            {isVideoCollapsed && (
-              <motion.div
-                key="remove"
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.35, ease: "easeInOut", delay: 0.05 }}
-                className="mt-3"
+        {/* Remove button */}
+        <AnimatePresence>
+          {isVideoCollapsed && (
+            <motion.div
+              key="remove"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.35, ease: "easeInOut", delay: 0.05 }}
+              className="mt-3"
+            >
+              <button
+                onClick={handleRemoveVideo}
+                className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg shadow-md transition-colors"
+                aria-label="Remove video and reload"
               >
-                <button
-                  onClick={handleRemoveVideo}
-                  className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-lg shadow-md transition-colors"
-                  aria-label="Remove video and reload"
-                >
-                  Remove video
-                </button>
-              </motion.div>
-            )}
-          </AnimatePresence>
+                Remove video
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-          {/* TRANSCRIPTION AREA: show spinner while transcribing even before transcript exists.
-              Show dropdown (header + content) only once transcript arrives. */}
-          <div className="mt-4">
-            {/* If transcribing and transcript not yet ready => show spinner here */}
-            {isTranscribing && !transcript ? (
-              <div className="flex flex-col items-center justify-center py-10 w-full rounded bg-gray-800/30">
-                <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                <p className="text-gray-300 text-center text-lg font-medium animate-pulse">
-                  {progressText || "Processing your video..."}
-                </p>
-              </div>
-            ) : null}
+        {/* TRANSCRIPTION AREA */}
+        <div className="mt-4">
+          {/* If transcribing and transcript not yet ready => show spinner here */}
+          {isTranscribing && !transcript ? (
+            <div className="flex flex-col items-center justify-center py-10 w-full rounded bg-neutralal-800/30">
+              <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-gray-300 text-center text-lg font-medium animate-pulse">
+                {progressText || "Processing your video..."}
+              </p>
+            </div>
+          ) : null}
 
-            {/* Render dropdown only after transcript exists */}
-            {transcript ? (
-              <div className="mt-2">
-                {/* Entire header row is a single clickable button spanning the full width */}
-                <button
-                  type="button"
-                  onClick={() => setTranscriptionOpen((s) => !s)}
-                  aria-expanded={transcriptionOpen}
-                  className="w-full flex items-center justify-between mb-2 px-3 py-2 rounded hover:bg-gray-800 transition focus:outline-none"
+          {/* Render dropdown only after transcript exists */}
+          {transcript ? (
+            <div className="mt-2">
+              {/* Entire header row is a single clickable button spanning the full width */}
+              <button
+                type="button"
+                onClick={() => setTranscriptionOpen((s) => !s)}
+                aria-expanded={transcriptionOpen}
+                className="w-full flex items-center justify-between mb-2 px-3 py-2 rounded hover:bg-neutral-800 transition focus:outline-none"
+              >
+                <div className="text-left">
+                  <h3 className="text-lg font-semibold text-gray-200 leading-tight">
+                    Transcript & Options
+                  </h3>
+                  <p className="text-sm text-gray-400 mt-0.5 hidden sm:block">
+                    Edit transcript, choose style & language
+                  </p>
+                </div>
+
+                <motion.span
+                  animate={{ rotate: transcriptionOpen ? 180 : 0 }}
+                  transition={{ duration: 0.25 }}
+                  className="inline-block text-gray-300"
+                  aria-hidden
                 >
-                  <div className="text-left">
-                    <h3 className="text-lg font-semibold text-gray-200 leading-tight">
-                      Transcript & Options
-                    </h3>
-                    <p className="text-sm text-gray-400 mt-0.5 hidden sm:block">
-                      Edit transcript, choose style & language
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 9l6 6 6-6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </motion.span>
+              </button>
+
+              <motion.div
+                initial={false}
+                animate={{
+                  height: transcriptionOpen ? "auto" : 0,
+                  opacity: transcriptionOpen ? 1 : 0,
+                }}
+                transition={{ duration: 0.45, ease: "easeInOut" }}
+                style={{ overflow: "hidden", borderRadius: 8 }}
+              >
+                {/* Spinner (shows while transcribing) */}
+                {isTranscribing && (
+                  <div className="flex flex-col items-center justify-center py-10">
+                    <div className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-4"></div>
+                    <p className="text-gray-300 text-center text-lg font-medium animate-pulse">
+                      {progressText || "Processing your video..."}
                     </p>
                   </div>
+                )}
 
-                  <motion.span
-                    animate={{ rotate: transcriptionOpen ? 180 : 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="inline-block text-gray-300"
-                    aria-hidden
+                {/* Transcript & Controls (appear after transcription finishes) */}
+                {!isTranscribing && transcript && (
+                  <motion.div
+                    key="transcript"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="w-full flex flex-col gap-4 mt-2"
                   >
-                    <svg
-                      width="18"
-                      height="18"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M6 9l6 6 6-6"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </motion.span>
-                </button>
+                    <TranscriptInput
+                      transcript={transcript}
+                      setTranscript={setTranscript}
+                      isTranscribing={isTranscribing}
+                      disabled={!videoUrl}
+                    />
+                    <Controls
+                      style={style}
+                      setStyle={setStyle}
+                      language={language}
+                      setLanguage={setLanguage}
+                      onGenerate={handleGenerateClick}
+                      isLoading={isGenerating}
+                      disabled={!videoUrl || isTranscribing}
+                    />
 
-                <motion.div
-                  initial={false}
-                  animate={{
-                    height: transcriptionOpen ? "auto" : 0,
-                    opacity: transcriptionOpen ? 1 : 0,
-                  }}
-                  transition={{ duration: 0.45, ease: "easeInOut" }}
-                  style={{ overflow: "hidden", borderRadius: 8 }}
-                >
-                  {/* Spinner (shows while transcribing) */}
-                  {isTranscribing && (
-                    <div className="flex flex-col items-center justify-center py-10">
-                      <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-4"></div>
-                      <p className="text-gray-300 text-center text-lg font-medium animate-pulse">
-                        {progressText || "Processing your video..."}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Transcript & Controls (appear after transcription finishes) */}
-                  {!isTranscribing && transcript && (
-                    <motion.div
-                      key="transcript"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -8 }}
-                      transition={{ duration: 0.35, ease: "easeOut" }}
-                      className="w-full flex flex-col gap-4 mt-2"
-                    >
-                      <TranscriptInput
-                        transcript={transcript}
-                        setTranscript={setTranscript}
-                        isTranscribing={isTranscribing}
-                        disabled={!videoUrl}
-                      />
-                      <Controls
-                        style={style}
-                        setStyle={setStyle}
-                        language={language}
-                        setLanguage={setLanguage}
-                        onGenerate={handleGenerateClick}
-                        isLoading={isGenerating}
-                        disabled={!videoUrl || isTranscribing}
-                      />
-
-                      {/* Inline generation loader: appears directly under Controls when generating */}
-                      <AnimatePresence>
-                        {isGenerating && (
-                          <motion.div
-                            key="gen-loader"
-                            initial={{ opacity: 0, y: 8 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -8 }}
-                            transition={{ duration: 0.3 }}
-                            className="flex flex-col items-center justify-center py-6"
-                          >
-                            <div className="w-10 h-10 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mb-3"></div>
-                            <p className="text-gray-300 text-center text-base font-medium animate-pulse">
-                              {generationProgressText ||
-                                "Generating captions..."}
-                            </p>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  )}
-                </motion.div>
-              </div>
-            ) : null}
-          </div>
+                    {/* Inline generation loader */}
+                    <AnimatePresence>
+                      {isGenerating && (
+                        <motion.div
+                          key="gen-loader"
+                          initial={{ opacity: 0, y: 8 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -8 }}
+                          transition={{ duration: 0.3 }}
+                          className="flex flex-col items-center justify-center py-6"
+                        >
+                          <div className="w-10 h-10 border-4 border-green-500 border-t-transparent rounded-full animate-spin mb-3"></div>
+                          <p className="text-gray-300 text-center text-base font-medium animate-pulse">
+                            {generationProgressText || "Generating captions..."}
+                          </p>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                )}
+              </motion.div>
+            </div>
+          ) : null}
         </div>
       </div>
 

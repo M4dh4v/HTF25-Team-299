@@ -7,20 +7,10 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => (
   <header className="mb-8">
-    {/* Top row: logo on left, buttons on right */}
     <div className="flex justify-between items-center mb-4">
-      {/* Logo */}
       <div className="flex items-center">
-        <img
-          src="/logo.png" // references /public/logo.png
-          alt="Logo"
-          className="h-10 w-auto mr-3"
-        />
-        {/* optional small app title next to logo */}
-        {/* <span className="text-xl font-bold">My App</span> */}
+        <img src="/logo.png" alt="Logo" className="h-10 w-auto mr-3" />
       </div>
-
-      {/* Navigation buttons */}
       <div className="flex gap-3">
         {["home", "about", "contact"].map((page) => (
           <button
@@ -28,8 +18,8 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => (
             onClick={() => setCurrentPage(page)}
             className={`px-4 py-2 rounded-lg transition-colors ${
               currentPage === page
-                ? "bg-indigo-600 hover:bg-indigo-700"
-                : "bg-gray-800 hover:bg-gray-700"
+                ? "bg-green-600 hover:bg-green-700"
+                : "bg-neutral-800 hover:bg-neutral-700"
             }`}
           >
             {page === "home"
@@ -41,13 +31,11 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage }) => (
         ))}
       </div>
     </div>
-
-    {/* Main title and description */}
     <div className="text-center">
-      <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text pb-2">
-        Automated Caption Generator
+      <h1 className="text-4xl sm:text-5xl font-extrabold bg-gradient-to-r from-green-400 to-emerald-500 text-transparent bg-clip-text pb-2">
+        Generate Viral Captions with AI
       </h1>
-      <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+      <p className="text-lg text-gray-400">
         Upload your video, get an instant transcript, and generate AI-powered
         captions in any style or language.
       </p>

@@ -1,5 +1,5 @@
-import React from 'react';
-import UploadIcon from './icons/UploadIcon';
+import React from "react";
+import UploadIcon from "./icons/UploadIcon";
 
 interface VideoPlayerProps {
   videoUrl: string | null;
@@ -9,7 +9,7 @@ interface VideoPlayerProps {
 const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
   ({ videoUrl, onFileChange }, ref) => {
     return (
-      <div className="bg-gray-800 rounded-xl p-4 flex flex-col items-center justify-center aspect-video relative overflow-hidden">
+      <div className="bg-neutralal-800 rounded-xl p-4 flex flex-col items-center justify-center aspect-video relative overflow-hidden">
         {videoUrl ? (
           <video
             ref={ref}
@@ -22,11 +22,15 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
           <div className="text-center">
             <label
               htmlFor="video-upload"
-              className="cursor-pointer group flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-indigo-500 hover:bg-gray-700/50 transition-colors"
+              className="cursor-pointer group flex flex-col items-center justify-center p-8 border-2 border-dashed border-gray-600 rounded-lg hover:border-green-500 hover:bg-neutral-700/50 transition-colors"
             >
-              <UploadIcon className="w-12 h-12 text-gray-500 group-hover:text-indigo-400 transition-colors mb-2" />
-              <span className="text-gray-400 font-semibold">Upload a Video</span>
-              <span className="text-sm text-gray-500 mt-1">MP4, MOV, or WEBM</span>
+              <UploadIcon className="w-12 h-12 text-gray-500 group-hover:text-green-400 transition-colors mb-2" />
+              <span className="text-gray-400 font-semibold">
+                Upload a Video
+              </span>
+              <span className="text-sm text-gray-500 mt-1">
+                MP4, MOV, or WEBM
+              </span>
             </label>
             <input
               id="video-upload"
@@ -42,6 +46,6 @@ const VideoPlayer = React.forwardRef<HTMLVideoElement, VideoPlayerProps>(
   }
 );
 
-VideoPlayer.displayName = 'VideoPlayer';
+VideoPlayer.displayName = "VideoPlayer";
 
 export default VideoPlayer;
