@@ -13,7 +13,7 @@ const ContactPage: React.FC = () => (
         <div className="space-y-4">
           <div>
             <h3 className="text-xl font-semibold text-green-400 mb-2">Email</h3>
-            <p className="text-gray-300">support@captiongenerator.com</p>
+            <p className="text-gray-300">helpdesk@nocap.ai</p>
           </div>
           <div>
             <h3 className="text-xl font-semibold text-green-400 mb-2">
