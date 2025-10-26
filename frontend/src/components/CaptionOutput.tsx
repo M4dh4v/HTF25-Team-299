@@ -50,7 +50,7 @@ const CaptionOutput: React.FC<CaptionOutputProps> = ({
   return (
     <div className="bg-neutral-800 rounded-xl p-6 h-full">
       <h2 className="text-xl font-bold mb-4 text-white">Generated Captions</h2>
-      <div className="h-full max-h-[calc(100vh-250px)] overflow-y-auto pr-2 space-y-4">
+      <div className="h-full max-h-[calc(100vh-250px)] overflow-y-auto pr-2 space-y-[2px]">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, index) => <Skeleton key={index} />)
         ) : captions.length > 0 ? (

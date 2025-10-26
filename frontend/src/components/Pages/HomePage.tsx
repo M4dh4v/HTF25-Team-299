@@ -177,7 +177,7 @@ const HomePage: React.FC = () => {
         const generated = await generateCaptions(transcript, style, language);
         setGenerationProgressText("Finalizing captions...");
         await new Promise((r) => setTimeout(r, 300));
-        setCaptions([generated]);
+        setCaptions(generated);
         setGenerationProgressText("");
         setTranscriptionOpen(false); // collapse after successful generation
       } catch (err) {
